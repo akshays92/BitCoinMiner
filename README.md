@@ -1,5 +1,7 @@
 # **COP5612 – Fall 2017** #
+
 ###**Problem definition**###
+
 Bitcoins (see http://en.wikipedia.org/wiki/Bitcoin) are the most popular
 crypto-currency in common use. At their hart, bitcoins use the hardness of cryp-
 tographic hashing (for a reference see http://en.wikipedia.org/wiki/Cryptographic hash function)
