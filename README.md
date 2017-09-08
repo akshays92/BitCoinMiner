@@ -20,6 +20,7 @@ The goal of this first project is to use Elixir and the actor model to build a
 good solution to this problem that runs well on multi-core machines.
 
 **Requirements**
+
 Input: The input provided (as command line to your ./project1) will be k,
 the required number of 0’s of the bitcoin.
 1Output: Print, on independent lines, the input string and the corresponding
