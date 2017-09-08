@@ -1,6 +1,6 @@
 # **COP5612 – Fall 2017** #
 
-###**Problem definition**###
+**Problem definition**
 
 Bitcoins (see http://en.wikipedia.org/wiki/Bitcoin) are the most popular
 crypto-currency in common use. At their hart, bitcoins use the hardness of cryp-
@@ -18,6 +18,8 @@ is obtained. For the coins you find, check your answer with this calculator to
 ensure correctness.
 The goal of this first project is to use Elixir and the actor model to build a
 good solution to this problem that runs well on multi-core machines.
+
+
 
 **Requirements**
 
