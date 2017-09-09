@@ -15,4 +15,7 @@ defmodule PROJECT1 do
   def hello do
     :world
   end
+  def main(args) do
+    IO.puts "Hello world"
+  end
 end
