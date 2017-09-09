@@ -16,6 +16,8 @@ defmodule PROJECT1 do
     :world
   end
   def main(args) do
-    IO.puts "Hello world"
+    IO.puts "Number of zeros taken: #{args}"
+    IO.puts(:crypto.hash(:sha256,"adobra;kjsdfk11" ) |> Base.encode16)
   end
+
 end
