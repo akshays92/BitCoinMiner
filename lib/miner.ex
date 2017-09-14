@@ -1,7 +1,7 @@
 defmodule PROJECT1.Miner do
     
     def minecoins(pid, count, inputstring, string2) do
-        countStr = Integer.to_string(count)
+        countStr = Integer.to_string(count,16)
         shaString = String.downcase(:crypto.hash(:sha256, inputstring <> countStr) |> Base.encode16)
         if String.starts_with?(shaString, string2) do
           output = (inputstring <> countStr <> "\t" <> shaString)
