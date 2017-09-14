@@ -3,21 +3,17 @@ defmodule PROJECT1 do
   Documentation for PROJECT1.
   """
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> PROJECT1.hello
-      :world
-
-  """
-  def hello do
-    :world
-  end
   def main(args) do
-    IO.puts "Number of zeros taken: #{args}"
-    IO.puts(:crypto.hash(:sha256,"adobra;kjsdfk11" ) |> Base.encode16)
-  end
+    inputstring = "GoGators"
+    input_arguements = (List.to_string(args))
 
+    if String.contains?(input_arguements,".") do
+      IO.puts("This is a slave machine, it should contact the server and only do mining")
+    else
+      IO.puts("This IS a SERVER machine, it will spawn 3 threads, for mining, generating input string and printing output on the terminal")
+      k = String.to_integer(input_arguements)
+      string2 = String.duplicate("0",k)
+      PROJECT1.Miner.minecoins(0,inputstring, string2)
+    end
+  end
 end
