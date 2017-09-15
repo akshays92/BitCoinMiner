@@ -47,6 +47,5 @@ defmodule PROJECT1.InputStringGenerator do
   #todo implement hashset logic
   def get_new_input(inputString) do
     inputString<>";"<>randomizer(10,:all)
-  end 
-    
+  end     
 end
