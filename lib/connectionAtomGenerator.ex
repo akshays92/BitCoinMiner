@@ -45,6 +45,7 @@ defmodule PROJECT1.ConnectionAtomGenerator do
 
   #generate the input atom
   def get_connection_atom(meraIP) do
-    String.to_atom(meraIP<>"@"<>randomizer(5,:all))
+    m=String.to_atom(randomizer(5,:all)<>"@"<>meraIP)
+    m
   end     
 end
