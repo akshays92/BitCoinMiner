@@ -17,12 +17,16 @@ defmodule PROJECT1 do
       Node.set_cookie(:"DesiBitcoinFarm")
       
       #server connection atom
+      try do
       serveratom=String.to_atom("Server"<>"@"<>serverIP)
       Node.connect(serveratom)
       sname = {:CoinServer, serveratom}
       k = PROJECT1.Server.getK(sname)
       string2 = String.duplicate("0",k)
       spawnXminingThreads(sname, 0,  :erlang.system_info(:logical_processors_available)*numberOfMiningThreadsPerCore,  string2, 1)
+      catch
+        :exit,_ -> IO.puts("Server thread not active at the given IP")
+      end
     else
       inputstring = "pbrahme;"
       #IO.puts("This IS a SERVER machine, it will spawn 3 threads, for mining, generating input string and printing output on the terminal")
@@ -49,7 +53,7 @@ defmodule PROJECT1 do
 
   def spawnXminingThreads(sname, count, intx,  string2, val) when count >= intx do
     #IO.puts("starting unlimited loop")
-    unlimitedLoop()
+    unlimitedLoop(sname)
   end
 
   def findIP do
@@ -69,8 +73,13 @@ defmodule PROJECT1 do
     (ip)
   end
 
-  def unlimitedLoop() do
-    unlimitedLoop()
+  def unlimitedLoop(sname) do
+    try do
+    PROJECT1.Server.isALive(sname)
+    unlimitedLoop(sname)
+    catch
+      :exit, _ -> IO.puts("Server has ended its process")
+    end
   end
   
 end

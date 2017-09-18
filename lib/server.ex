@@ -14,19 +14,23 @@ defmodule PROJECT1.Server do
       end
       
       def printOutputString(sname, outputString ) do
-          GenServer.call(sname, {:printOutputString, outputString})
+          GenServer.cast(sname, {:printOutputString, outputString})
       end
 
       def getK(sname) do
         GenServer.call(sname, {:get_k})
       end
 
+      def isALive(sname) do
+        GenServer.call(sname,{:isAlive},5000 )
+      end
+
 
       #callbacks
       
-      def handle_call({:printOutputString, outputString}, _from, my_state) do
+      def handle_cast({:printOutputString, outputString}, my_state) do
         IO.puts outputString
-        {:reply,"ok", my_state}
+        {:noreply, my_state}
         
       end 
 
@@ -39,6 +43,10 @@ defmodule PROJECT1.Server do
 
       def handle_call({:get_k}, _from, state) do
         {:reply, Map.get(state, :k), state}
+      end
+
+      def handle_call({:isAlive}, _from, state) do
+        {:reply, true, state}
       end
 end
 
