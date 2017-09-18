@@ -3,10 +3,10 @@ defmodule PROJECT1 do
   Documentation for PROJECT1.
   """
   def main(args) do
-    inputstring = "pbrahme;"
+    
     input_arguements = (List.to_string(args))
     numberOfMiningThreadsPerCore=25
-    localIP=findIP #change with getting localIP address for different operating systems
+    localIP=findIP() #change with getting localIP address for different operating systems
 
     if String.contains?(input_arguements,".") do
       #IO.puts("This is a slave machine, it should contact the server and only do mining")
@@ -19,11 +19,12 @@ defmodule PROJECT1 do
       #server connection atom
       serveratom=String.to_atom("Server"<>"@"<>serverIP)
       Node.connect(serveratom)
-      k = GenServer.call({:CoinServer,serveratom}, {:get_k})
-      string2 = String.duplicate("0",k)
       sname = {:CoinServer, serveratom}
-      spawnXminingThreads(sname, 0,  :erlang.system_info(:logical_processors_available)*numberOfMiningThreadsPerCore, inputstring, string2, 1)
+      k = PROJECT1.Server.getK(sname)
+      string2 = String.duplicate("0",k)
+      spawnXminingThreads(sname, 0,  :erlang.system_info(:logical_processors_available)*numberOfMiningThreadsPerCore,  string2, 1)
     else
+      inputstring = "pbrahme;"
       #IO.puts("This IS a SERVER machine, it will spawn 3 threads, for mining, generating input string and printing output on the terminal")
       serverIP=localIP
       serveratom=String.to_atom("Server"<>"@"<>serverIP)
@@ -31,9 +32,9 @@ defmodule PROJECT1 do
       Node.set_cookie(:"DesiBitcoinFarm")
       k = String.to_integer(input_arguements)
       string2 = String.duplicate("0",k)
-      PROJECT1.Server.start_link(k)
+      PROJECT1.Server.start_link(k,inputstring)
       sname = {:CoinServer, serveratom}
-      spawnXminingThreads(sname, 0,:erlang.system_info(:logical_processors_available)*numberOfMiningThreadsPerCore, inputstring, string2, 0)
+      spawnXminingThreads(sname, 0,:erlang.system_info(:logical_processors_available)*numberOfMiningThreadsPerCore,  string2, 0)
 
     end
 
@@ -41,12 +42,12 @@ defmodule PROJECT1 do
 
   end
 
-  def spawnXminingThreads(sname, count, intx, inputstring, string2, val) when count < intx do
-    spawn(PROJECT1.Miner,:minecoins, [sname, 0, PROJECT1.Server.getInputString(sname,inputstring), string2, val])
-    spawnXminingThreads(sname, count+1,intx, inputstring, string2, val)
+  def spawnXminingThreads(sname, count, intx,  string2, val) when count < intx do
+    spawn(PROJECT1.Miner,:minecoins, [sname, 0, PROJECT1.Server.getInputString(sname), string2, val])
+    spawnXminingThreads(sname, count+1,intx,  string2, val)
   end
 
-  def spawnXminingThreads(sname, count, intx, inputstring, string2, val) when count >= intx do
+  def spawnXminingThreads(sname, count, intx,  string2, val) when count >= intx do
     #IO.puts("starting unlimited loop")
     unlimitedLoop()
   end
