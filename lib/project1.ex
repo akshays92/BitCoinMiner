@@ -5,9 +5,7 @@ defmodule PROJECT1 do
   def main(args) do
     inputstring = "GoGator"
     input_arguements = (List.to_string(args))
-    localIP="192.168.0.13" #change with getting localIP address for different operating systems
-
-    
+    localIP=findIP #change with getting localIP address for different operating systems
 
     if String.contains?(input_arguements,".") do
       IO.puts("This is a slave machine, it should contact the server and only do mining")
@@ -52,13 +50,18 @@ defmodule PROJECT1 do
   end
 
   def findIP do
-    {ops_sys, _ } = :os.type
+    {ops_sys, versionof } = :os.type
     ip = 
     case ops_sys do
-     :unix -> {:ok, [addr: ip]} = :inet.ifget('en0', [:addr])
-     to_string(:inet.ntoa(ip))
-     :win32 -> {:ok, ip} = :inet.getiflist
-     to_string(hd(ip))
+     :unix -> 
+      case versionof do
+        :darwin -> {:ok, [addr: ip]} = :inet.ifget('en0', [:addr])
+        to_string(:inet.ntoa(ip)) 
+        :linux ->  {:ok, [addr: ip]} = :inet.ifget('wlp1s0', [:addr])
+        to_string(:inet.ntoa(ip))
+      end    
+      :win32 -> {:ok, ip} = :inet.getiflist
+      to_string(hd(ip))
     end
     (ip)
   end
