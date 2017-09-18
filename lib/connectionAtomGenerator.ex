@@ -1,6 +1,7 @@
 defmodule PROJECT1.ConnectionAtomGenerator do
 
-  #this randomizer function for generating random string is taken from https://gist.github.com/ahmadshah/8d978bbc550128cca12dd917a09ddfb7
+  #this randomizer function for generating random random atom for connexting to the server
+  # is taken from https://gist.github.com/ahmadshah/8d978bbc550128cca12dd917a09ddfb7
     
     @moduledoc """
   Random string generator module.
