@@ -14,7 +14,7 @@ defmodule PROJECT1.Server do
       end
       
       def printOutputString(sname, outputString ) do
-          GenServer.cast(sname, {:getOutputString, outputString})
+          GenServer.call(sname, {:printOutputString, outputString})
       end
 
       def getK(sname) do
@@ -24,14 +24,15 @@ defmodule PROJECT1.Server do
 
       #callbacks
       
-      def handle_cast({:getOutputString, outputString}, my_state) do
+      def handle_call({:printOutputString, outputString}, _from, my_state) do
         IO.puts outputString
-        {:noreply, my_state}
+        {:reply,"ok", my_state}
         
       end 
 
       def handle_call({:getInputString}, _from, my_state) do
         x = Integer.to_string(Map.get(my_state, :pc),36)
+        
         commonString=Map.get(my_state, :commonString)
         {:reply, (commonString <> String.duplicate("0",5-String.length(x)) <> x ), Map.put(my_state, :pc, Map.get(my_state, :pc) + 1)}
       end    
