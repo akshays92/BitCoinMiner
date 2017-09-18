@@ -10,7 +10,7 @@ defmodule PROJECT1.Miner do
           if (String.equivalent?(m,"ok")) do
             #IO.puts("ok mila")
           else
-            IO.puts("CHURAN MILA")
+            IO.puts("ok nai MILA")
             exit(:shutdown)  
           end
         end
