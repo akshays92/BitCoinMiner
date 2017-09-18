@@ -6,7 +6,6 @@ defmodule PROJECT1.Server do
       end
       
       def init(init_data) do
-        IO.puts("Server started")
         {:ok,init_data} 
         end
     

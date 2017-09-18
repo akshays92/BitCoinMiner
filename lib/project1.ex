@@ -5,6 +5,7 @@ defmodule PROJECT1 do
   def main(args) do
     inputstring = "GoGator"
     input_arguements = (List.to_string(args))
+    numberOfMiningThreadsPerCore=25
     localIP=findIP #change with getting localIP address for different operating systems
 
     if String.contains?(input_arguements,".") do
@@ -21,7 +22,7 @@ defmodule PROJECT1 do
       k = GenServer.call({:CoinServer,serveratom}, {:get_k})
       string2 = String.duplicate("0",k)
       sname = {:CoinServer, serveratom}
-      spawnXminingThreads(sname, 0, 36, inputstring, string2, 1)
+      spawnXminingThreads(sname, 0,  :erlang.system_info(:logical_processors_available)*numberOfMiningThreadsPerCore, inputstring, string2, 1)
     else
       IO.puts("This IS a SERVER machine, it will spawn 3 threads, for mining, generating input string and printing output on the terminal")
       serverIP=localIP
@@ -32,7 +33,7 @@ defmodule PROJECT1 do
       string2 = String.duplicate("0",k)
       PROJECT1.Server.start_link(k)
       sname = {:CoinServer, serveratom}
-      spawnXminingThreads(sname, 0, 25, inputstring, string2, 0)
+      spawnXminingThreads(sname, 0,:erlang.system_info(:logical_processors_available)*numberOfMiningThreadsPerCore, inputstring, string2, 0)
 
     end
 
@@ -42,10 +43,11 @@ defmodule PROJECT1 do
 
   def spawnXminingThreads(sname, count, intx, inputstring, string2, val) when count < intx do
     spawn(PROJECT1.Miner,:minecoins, [sname, 0, PROJECT1.Server.getInputString(sname,inputstring), string2, val])
-    spawnXminingThreads(sname, count+1,:erlang.system_info(:logical_processors_available)*intx, inputstring, string2, val)
+    spawnXminingThreads(sname, count+1,intx, inputstring, string2, val)
   end
 
   def spawnXminingThreads(sname, count, intx, inputstring, string2, val) when count >= intx do
+    IO.puts("starting unlimited loop")
     unlimitedLoop()
   end
 
