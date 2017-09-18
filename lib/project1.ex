@@ -3,13 +3,13 @@ defmodule PROJECT1 do
   Documentation for PROJECT1.
   """
   def main(args) do
-    inputstring = "GoGator"
+    inputstring = "pbrahme;"
     input_arguements = (List.to_string(args))
     numberOfMiningThreadsPerCore=25
     localIP=findIP #change with getting localIP address for different operating systems
 
     if String.contains?(input_arguements,".") do
-      IO.puts("This is a slave machine, it should contact the server and only do mining")
+      #IO.puts("This is a slave machine, it should contact the server and only do mining")
       serverIP = input_arguements
       
       #get random connection atom to spawn this node
@@ -24,7 +24,7 @@ defmodule PROJECT1 do
       sname = {:CoinServer, serveratom}
       spawnXminingThreads(sname, 0,  :erlang.system_info(:logical_processors_available)*numberOfMiningThreadsPerCore, inputstring, string2, 1)
     else
-      IO.puts("This IS a SERVER machine, it will spawn 3 threads, for mining, generating input string and printing output on the terminal")
+      #IO.puts("This IS a SERVER machine, it will spawn 3 threads, for mining, generating input string and printing output on the terminal")
       serverIP=localIP
       serveratom=String.to_atom("Server"<>"@"<>serverIP)
       Node.start(serveratom)
@@ -47,7 +47,7 @@ defmodule PROJECT1 do
   end
 
   def spawnXminingThreads(sname, count, intx, inputstring, string2, val) when count >= intx do
-    IO.puts("starting unlimited loop")
+    #IO.puts("starting unlimited loop")
     unlimitedLoop()
   end
 
