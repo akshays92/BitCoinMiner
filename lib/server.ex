@@ -1,23 +1,45 @@
 defmodule PROJECT1.Server do
     use GenServer
 
-      def start_link do
-        GenServer.start_link(__MODULE__,0, name: :CoinServer)
+      def start_link(k, commonString) do
+        GenServer.start_link(__MODULE__,%{k: k, pc: 0, commonString: commonString}, name: :CoinServer)
       end
       
       def init(init_data) do
-        IO.puts("Server started")
         {:ok,init_data} 
         end
     
-      def getInputString(:CoinServer, baseString) do
-          GenServer.call(:CoinServer, {:getInputString, baseString})
+      def getInputString(sname) do
+          GenServer.call(sname, {:getInputString})
       end
-        
+      
+      def printOutputString(sname, outputString ) do
+          GenServer.call(sname, {:printOutputString, outputString})
+      end
+
+      def getK(sname) do
+        GenServer.call(sname, {:get_k})
+      end
+
+
       #callbacks
       
-      def handle_call({:getInputString, baseString}, _from, my_state) do
-        x = Integer.to_string(my_state,36)
-        {:reply, (baseString <> String.duplicate("0",5-String.length(x)) <> x ), my_state+1}
+      def handle_call({:printOutputString, outputString}, _from, my_state) do
+        IO.puts outputString
+        {:reply,"ok", my_state}
+        
+      end 
+
+      def handle_call({:getInputString}, _from, my_state) do
+        x = Integer.to_string(Map.get(my_state, :pc),36)
+        
+        commonString=Map.get(my_state, :commonString)
+        {:reply, (commonString <> String.duplicate("0",5-String.length(x)) <> x ), Map.put(my_state, :pc, Map.get(my_state, :pc) + 1)}
       end    
+
+      def handle_call({:get_k}, _from, state) do
+        {:reply, Map.get(state, :k), state}
+      end
 end
+
+

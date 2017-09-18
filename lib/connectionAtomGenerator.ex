@@ -1,6 +1,6 @@
-defmodule PROJECT1.InputStringGenerator do
+defmodule PROJECT1.ConnectionAtomGenerator do
 
-  #this randomizer module is taken from https://gist.github.com/ahmadshah/8d978bbc550128cca12dd917a09ddfb7
+  #this randomizer function for generating random string is taken from https://gist.github.com/ahmadshah/8d978bbc550128cca12dd917a09ddfb7
     
     @moduledoc """
   Random string generator module.
@@ -43,9 +43,9 @@ defmodule PROJECT1.InputStringGenerator do
     |> Enum.join("")
   end
 
-  #concatenate random string with input string
-  #todo implement hashset logic
-  def get_new_input(inputString) do
-    inputString<>";"<>randomizer(10,:all)
+  #generate the input atom
+  def get_connection_atom(meraIP) do
+    m=String.to_atom(randomizer(5,:all)<>"@"<>meraIP)
+    m
   end     
 end
